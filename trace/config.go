@@ -331,6 +331,12 @@ func WithProfileRegion(profileRegion bool) SpanStartOption {
 	})
 }
 
+// ProfileRegion is a utility function to request that the span create a
+// runtime/trace.Region.
+func ProfileRegion() SpanStartOption {
+	return WithProfileRegion(true)
+}
+
 // WithProfileTask requests that the span create a runtime/trace.Task.
 // If this option is not passed, root local spans will still create a task when
 // runtime/trace is enabled. To turn off this default behavior, use WithProfileTask(false).
@@ -339,6 +345,12 @@ func WithProfileTask(profileTask bool) SpanStartOption {
 		cfg.profileTask = &profileTask
 		return cfg
 	})
+}
+
+// ProfileTask is a utility function to request that the span create a
+// runtime/trace.Task.
+func ProfileTask() SpanStartOption {
+	return WithProfileTask(true)
 }
 
 // WithAsyncEnd hints the tracer that the span will be ended on a different

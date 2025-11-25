@@ -34,7 +34,7 @@ func (s *Scope) SpanOptions() []trace.SpanStartOption {
 	if s.spanStartOptions == nil {
 		var opts []trace.SpanStartOption
 		if s.AutoProfiling {
-			opts = append(opts, trace.WithProfileRegion(true))
+			opts = append(opts, trace.ProfileRegion())
 		}
 		opts = append(opts, trace.WithSkipProfiling(s.SkipProfiling))
 		s.spanStartOptions = &opts

@@ -187,6 +187,15 @@ func TestNewSpanConfig(t *testing.T) {
 		},
 		{
 			[]SpanStartOption{
+				ProfileTask(),
+			},
+			SpanConfig{
+				profileTask: boolPtr(true),
+			},
+			nil,
+		},
+		{
+			[]SpanStartOption{
 				// Multiple calls overwrites with last-one-wins.
 				WithProfileTask(true),
 				WithProfileTask(false),
@@ -223,6 +232,15 @@ func TestNewSpanConfig(t *testing.T) {
 				}
 				assert.Nil(t, cfg.ProfileTask())
 			},
+		},
+		{
+			[]SpanStartOption{
+				ProfileRegion(),
+			},
+			SpanConfig{
+				profileRegion: boolPtr(true),
+			},
+			nil,
 		},
 		{
 			[]SpanStartOption{
@@ -320,8 +338,8 @@ func TestNewSpanConfig(t *testing.T) {
 				WithLinks(link1, link2),
 				WithNewRoot(),
 				WithSpanKind(SpanKindConsumer),
-				WithProfileTask(true),
-				WithProfileRegion(false),
+				ProfileTask(),
+				ProfileRegion(),
 				AsyncEnd(),
 				NoProfiling(),
 			},
@@ -332,7 +350,7 @@ func TestNewSpanConfig(t *testing.T) {
 				newRoot:       true,
 				spanKind:      SpanKindConsumer,
 				profileTask:   boolPtr(true),
-				profileRegion: boolPtr(false),
+				profileRegion: boolPtr(true),
 				asyncEnd:      true,
 				skipProfiling: true,
 			},
@@ -584,9 +602,21 @@ func BenchmarkNewSpanStartConfig(b *testing.B) {
 			},
 		},
 		{
+			name: "profile task",
+			options: []SpanStartOption{
+				ProfileTask(),
+			},
+		},
+		{
 			name: "with profile region",
 			options: []SpanStartOption{
 				WithProfileRegion(true),
+			},
+		},
+		{
+			name: "profile region",
+			options: []SpanStartOption{
+				ProfileRegion(),
 			},
 		},
 		{
