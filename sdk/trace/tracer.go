@@ -34,7 +34,8 @@ func (tr *tracer) Start(
 	name string,
 	options ...trace.SpanStartOption,
 ) (context.Context, trace.Span) {
-	config := trace.NewSpanStartConfig(options...)
+	config := trace.NewSpanStartConfig(tr.instrumentationScope.SpanOptions()...)
+	config.ApplyOptions(options...)
 
 	if ctx == nil {
 		// Prevent trace.ContextWithSpan from panicking.
