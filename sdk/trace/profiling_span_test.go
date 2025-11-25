@@ -322,9 +322,9 @@ func TestAutoProfiling(t *testing.T) {
 
 		ctx := t.Context()
 		_, span := tracer.Start(ctx, "root-span", trace.NoProfiling())
-		assertCalls(t, mockRT, 1, 1, 0, 0, 0)
+		assertCalls(t, mockRT, 1, 0, 0, 0, 0)
 
 		span.End()
-		assertCalls(t, mockRT, 2, 2, 0, 2, 0)
+		assertCalls(t, mockRT, 1, 0, 0, 0, 0)
 	})
 }

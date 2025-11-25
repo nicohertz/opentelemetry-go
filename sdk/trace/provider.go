@@ -138,12 +138,10 @@ func (p *TracerProvider) Tracer(name string, opts ...trace.TracerOption) trace.T
 		name = defaultTracerName
 	}
 	is := instrumentation.Scope{
-		Name:          name,
-		Version:       c.InstrumentationVersion(),
-		SchemaURL:     c.SchemaURL(),
-		Attributes:    c.InstrumentationAttributes(),
-		AutoProfiling: c.AutoProfiling(),
-		SkipProfiling: c.SkipProfiling(),
+		Name:       name,
+		Version:    c.InstrumentationVersion(),
+		SchemaURL:  c.SchemaURL(),
+		Attributes: c.InstrumentationAttributes(),
 	}
 
 	t, ok := func() (trace.Tracer, bool) {
@@ -159,6 +157,7 @@ func (p *TracerProvider) Tracer(name string, opts ...trace.TracerOption) trace.T
 			t = &tracer{
 				provider:             p,
 				instrumentationScope: is,
+				spanOptions:          c.SpanOptions(),
 			}
 
 			var err error

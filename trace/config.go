@@ -47,6 +47,16 @@ func (t *TracerConfig) SkipProfiling() bool {
 	return t.skipProfiling
 }
 
+// SpanOptions returns the default span start options for this tracer.
+func (t *TracerConfig) SpanOptions() []SpanStartOption {
+	var opts []SpanStartOption
+	if t.AutoProfiling() {
+		opts = append(opts, ProfileRegion())
+	}
+	opts = append(opts, WithSkipProfiling(t.SkipProfiling()))
+	return opts
+}
+
 // NewTracerConfig applies all the options to a returned TracerConfig.
 func NewTracerConfig(options ...TracerOption) TracerConfig {
 	var config TracerConfig
